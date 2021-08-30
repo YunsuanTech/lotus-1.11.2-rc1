@@ -696,6 +696,8 @@ type StorageMinerStruct struct {
 
 		ReturnAddPiece func(p0 context.Context, p1 storiface.CallID, p2 abi.PieceInfo, p3 *storiface.CallError) error `perm:"admin"`
 
+		MaybeAddPice func(p0 context.Context, p1 storiface.SectorFileType, p2 abi.SectorSize, p3 storiface.PathType) bool `perm:"admin"`
+
 		ReturnFetch func(p0 context.Context, p1 storiface.CallID, p2 *storiface.CallError) error `perm:"admin"`
 
 		ReturnFinalizeSector func(p0 context.Context, p1 storiface.CallID, p2 *storiface.CallError) error `perm:"admin"`
@@ -3551,6 +3553,10 @@ func (s *SignableStruct) Sign(p0 context.Context, p1 SignFunc) error {
 
 func (s *SignableStub) Sign(p0 context.Context, p1 SignFunc) error {
 	return ErrNotSupported
+}
+
+func (s *StorageMinerStruct) MaybeAddPice(p0 context.Context, p1 storiface.SectorFileType, p2 abi.SectorSize, p3 storiface.PathType) bool {
+	return s.Internal.MaybeAddPice(p0, p1, p2, p3)
 }
 
 func (s *StorageMinerStruct) ActorAddress(p0 context.Context) (address.Address, error) {
